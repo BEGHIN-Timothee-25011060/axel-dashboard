@@ -305,3 +305,26 @@ td.badges { white-space: nowrap; }
 .btn-jeu:hover { background: var(--bleu); }
 .btn-jeu.ghost { background: #fff; color: var(--bleu); border: 1px solid var(--bord); }
 .btn-jeu.ghost:hover { background: #eef4fb; }
+
+/* ---- avatars de contributeurs ---- */
+.avatar { width: 20px; height: 20px; border-radius: 50%; vertical-align: middle;
+  margin-right: .35rem; background: #dde3e8; object-fit: cover; }
+.pod-liste .avatar { width: 22px; height: 22px; }
+.feed-item .avatar { width: 26px; height: 26px; }
+
+/* ---- confettis (overlay plein écran, non interactif) ---- */
+#confetti { position: fixed; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 50; display: none; }
+
+/* ---- flux des derniers commits ---- */
+.feed { list-style: none; margin: 0; padding: 0; background: #fff;
+  border: 1px solid var(--bord); border-radius: 8px; overflow: hidden; }
+.feed-item { display: flex; align-items: center; gap: .55rem; padding: .5rem .8rem;
+  border-top: 1px solid var(--bord); font-size: .86rem; }
+.feed-item:first-child { border-top: 0; }
+.feed-msg { flex: 1 1 auto; min-width: 0; white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; }
+.feed-meta { flex: 0 0 auto; color: var(--gris); font-size: .76rem; }
+.feed-meta a { color: var(--bleu-clair); text-decoration: none; }
+.feed-meta a:hover { text-decoration: underline; }
+@media (max-width: 720px) { .feed-meta { display: none; } }

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-20T22:09:37.741402+00:00",
+  "generated_at": "2026-06-20T23:48:45.297910+00:00",
   "repo": {
     "name": "Game-Jam",
     "full_name": "BANTI-Hugo-25004176/Game-Jam",
@@ -8,22 +8,22 @@
     "default_branch": "main"
   },
   "totals": {
-    "commits": 35,
+    "commits": 45,
     "contributors": 5,
-    "prs_merged": 25,
-    "prs_open": 0,
-    "reviews": 21,
-    "lines_added": 4873,
-    "lines_deleted": 625,
-    "issues_total": 13,
-    "issues_done": 8
+    "prs_merged": 29,
+    "prs_open": 3,
+    "reviews": 23,
+    "lines_added": 5475,
+    "lines_deleted": 713,
+    "issues_total": 18,
+    "issues_done": 10
   },
   "activity": {
-    "total": 35,
+    "total": 45,
     "first_day": "2026-06-19",
     "last_day": "2026-06-21",
     "by_day": {
-      "2026-06-21": 1,
+      "2026-06-21": 11,
       "2026-06-20": 31,
       "2026-06-19": 3
     },
@@ -34,11 +34,11 @@
       0,
       3,
       31,
-      1
+      11
     ],
     "by_hour": [
-      6,
-      4,
+      11,
+      9,
       0,
       0,
       0,
@@ -63,52 +63,10 @@
       9
     ],
     "by_student": {
-      "MORSILLI-Timeo-25002755": {
-        "total": 16,
+      "DUMONTVladislav": {
+        "total": 5,
         "by_day": {
           "2026-06-21": 1,
-          "2026-06-20": 14,
-          "2026-06-19": 1
-        },
-        "by_weekday": [
-          0,
-          0,
-          0,
-          0,
-          1,
-          14,
-          1
-        ],
-        "by_hour": [
-          3,
-          3,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          1,
-          0,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0,
-          2,
-          2,
-          4
-        ]
-      },
-      "DUMONTVladislav": {
-        "total": 4,
-        "by_day": {
           "2026-06-20": 3,
           "2026-06-19": 1
         },
@@ -119,10 +77,10 @@
           0,
           1,
           3,
-          0
+          1
         ],
         "by_hour": [
-          0,
+          1,
           1,
           0,
           0,
@@ -149,8 +107,9 @@
         ]
       },
       "BEGHIN-Timothee-25011060": {
-        "total": 12,
+        "total": 18,
         "by_day": {
+          "2026-06-21": 6,
           "2026-06-20": 12
         },
         "by_weekday": [
@@ -160,11 +119,11 @@
           0,
           0,
           12,
-          0
+          6
         ],
         "by_hour": [
-          3,
-          0,
+          4,
+          5,
           0,
           0,
           0,
@@ -187,6 +146,90 @@
           1,
           2,
           1
+        ]
+      },
+      "MORSILLI-Timeo-25002755": {
+        "total": 18,
+        "by_day": {
+          "2026-06-21": 3,
+          "2026-06-20": 14,
+          "2026-06-19": 1
+        },
+        "by_weekday": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          14,
+          3
+        ],
+        "by_hour": [
+          5,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          2,
+          4
+        ]
+      },
+      "RUIZ-Enrique-25002136": {
+        "total": 1,
+        "by_day": {
+          "2026-06-21": 1
+        },
+        "by_weekday": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "by_hour": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
         ]
       },
       "BANTI-Hugo-25004176": {
@@ -237,10 +280,10 @@
     {
       "login": "MORSILLI-Timeo-25002755",
       "name": "MORSILLI-Timeo-25002755",
-      "commits": 16,
-      "branch_commits": 0,
-      "lines_added": 1022,
-      "lines_deleted": 341,
+      "commits": 18,
+      "branch_commits": 2,
+      "lines_added": 1070,
+      "lines_deleted": 365,
       "prs_open": 0,
       "prs_merged": 11,
       "reviews_given": 4,
@@ -259,7 +302,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 7,
-          "deletions": 6
+          "deletions": 6,
+          "reviews": 0
         },
         {
           "number": 35,
@@ -268,7 +312,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 4,
-          "deletions": 4
+          "deletions": 4,
+          "reviews": 0
         },
         {
           "number": 32,
@@ -277,7 +322,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 1,
-          "deletions": 1
+          "deletions": 1,
+          "reviews": 0
         },
         {
           "number": 31,
@@ -286,7 +332,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 37,
-          "deletions": 0
+          "deletions": 0,
+          "reviews": 0
         },
         {
           "number": 25,
@@ -295,7 +342,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 231,
-          "deletions": 52
+          "deletions": 52,
+          "reviews": 1
         },
         {
           "number": 23,
@@ -304,7 +352,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 7,
-          "deletions": 2
+          "deletions": 2,
+          "reviews": 1
         },
         {
           "number": 19,
@@ -313,7 +362,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 138,
-          "deletions": 117
+          "deletions": 117,
+          "reviews": 1
         },
         {
           "number": 13,
@@ -322,7 +372,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 8,
-          "deletions": 2
+          "deletions": 2,
+          "reviews": 1
         },
         {
           "number": 10,
@@ -331,7 +382,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 234,
-          "deletions": 1
+          "deletions": 1,
+          "reviews": 2
         },
         {
           "number": 9,
@@ -340,7 +392,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 167,
-          "deletions": 64
+          "deletions": 64,
+          "reviews": 1
         },
         {
           "number": 2,
@@ -349,7 +402,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 1,
-          "deletions": 1
+          "deletions": 1,
+          "reviews": 3
         }
       ],
       "review_quality": "green"
@@ -357,21 +411,71 @@
     {
       "login": "BEGHIN-Timothee-25011060",
       "name": "Androtim",
-      "commits": 12,
-      "branch_commits": 2,
-      "lines_added": 1634,
-      "lines_deleted": 156,
-      "prs_open": 0,
-      "prs_merged": 8,
+      "commits": 18,
+      "branch_commits": 6,
+      "lines_added": 1786,
+      "lines_deleted": 175,
+      "prs_open": 3,
+      "prs_merged": 10,
       "reviews_given": 4,
       "reviews_received": 5,
       "inline_comments": 4,
       "changes_requested": 0,
       "empty_approvals": 0,
       "substantial_reviews": 4,
-      "issues_closed": 3,
-      "issues_assigned": 5,
+      "issues_closed": 4,
+      "issues_assigned": 6,
       "prs": [
+        {
+          "number": 52,
+          "title": "feat(ui): Options accessibles depuis le menu pause",
+          "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/52",
+          "state": "OPEN",
+          "merged": false,
+          "additions": 44,
+          "deletions": 2,
+          "reviews": 0
+        },
+        {
+          "number": 50,
+          "title": "feat(hud): HUD en jeu (vie, munitions 30/∞, kills) + écran Game Over",
+          "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/50",
+          "state": "OPEN",
+          "merged": false,
+          "additions": 418,
+          "deletions": 3,
+          "reviews": 0
+        },
+        {
+          "number": 46,
+          "title": "fix(project): marqueur de conflit git dans project.godot",
+          "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/46",
+          "state": "MERGED",
+          "merged": true,
+          "additions": 0,
+          "deletions": 1,
+          "reviews": 0
+        },
+        {
+          "number": 45,
+          "title": "feat(gamepad): visée stick droit + tir gâchette (suite du port manette #29)",
+          "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/45",
+          "state": "OPEN",
+          "merged": false,
+          "additions": 63,
+          "deletions": 21,
+          "reviews": 0
+        },
+        {
+          "number": 41,
+          "title": "docs(README): lien vers le tableau de bord",
+          "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/41",
+          "state": "MERGED",
+          "merged": true,
+          "additions": 3,
+          "deletions": 0,
+          "reviews": 0
+        },
         {
           "number": 30,
           "title": "feat: bordures invisibles de la map",
@@ -379,7 +483,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 111,
-          "deletions": 0
+          "deletions": 0,
+          "reviews": 0
         },
         {
           "number": 28,
@@ -388,7 +493,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 39,
-          "deletions": 39
+          "deletions": 39,
+          "reviews": 0
         },
         {
           "number": 27,
@@ -397,7 +503,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 2,
-          "deletions": 6
+          "deletions": 6,
+          "reviews": 0
         },
         {
           "number": 24,
@@ -406,7 +513,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 28,
-          "deletions": 28
+          "deletions": 28,
+          "reviews": 0
         },
         {
           "number": 22,
@@ -415,7 +523,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 116,
-          "deletions": 0
+          "deletions": 0,
+          "reviews": 1
         },
         {
           "number": 20,
@@ -424,7 +533,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 72,
-          "deletions": 0
+          "deletions": 0,
+          "reviews": 1
         },
         {
           "number": 12,
@@ -433,7 +543,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 900,
-          "deletions": 70
+          "deletions": 70,
+          "reviews": 1
         },
         {
           "number": 8,
@@ -442,7 +553,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 858,
-          "deletions": 0
+          "deletions": 0,
+          "reviews": 2
         }
       ],
       "review_quality": "green"
@@ -450,14 +562,14 @@
     {
       "login": "DUMONTVladislav",
       "name": "Vladislav DUMONT",
-      "commits": 4,
+      "commits": 5,
       "branch_commits": 0,
-      "lines_added": 2033,
-      "lines_deleted": 94,
+      "lines_added": 2113,
+      "lines_deleted": 106,
       "prs_open": 0,
-      "prs_merged": 3,
+      "prs_merged": 4,
       "reviews_given": 2,
-      "reviews_received": 6,
+      "reviews_received": 7,
       "inline_comments": 2,
       "changes_requested": 0,
       "empty_approvals": 0,
@@ -466,13 +578,24 @@
       "issues_assigned": 1,
       "prs": [
         {
+          "number": 44,
+          "title": "feat(gun) : added gun orientation and reload system",
+          "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/44",
+          "state": "MERGED",
+          "merged": true,
+          "additions": 80,
+          "deletions": 12,
+          "reviews": 1
+        },
+        {
           "number": 36,
           "title": "fix(map) : fixed some collisions",
           "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/36",
           "state": "MERGED",
           "merged": true,
           "additions": 35,
-          "deletions": 18
+          "deletions": 18,
+          "reviews": 2
         },
         {
           "number": 21,
@@ -481,7 +604,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 140,
-          "deletions": 6
+          "deletions": 6,
+          "reviews": 1
         },
         {
           "number": 11,
@@ -490,7 +614,8 @@
           "state": "CLOSED",
           "merged": false,
           "additions": 933,
-          "deletions": 70
+          "deletions": 70,
+          "reviews": 1
         },
         {
           "number": 1,
@@ -499,7 +624,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 927,
-          "deletions": 0
+          "deletions": 0,
+          "reviews": 2
         }
       ],
       "review_quality": "green"
@@ -513,13 +639,13 @@
       "lines_deleted": 34,
       "prs_open": 0,
       "prs_merged": 3,
-      "reviews_given": 8,
+      "reviews_given": 10,
       "reviews_received": 0,
       "inline_comments": 2,
       "changes_requested": 0,
-      "empty_approvals": 6,
+      "empty_approvals": 8,
       "substantial_reviews": 2,
-      "issues_closed": 2,
+      "issues_closed": 3,
       "issues_assigned": 3,
       "prs": [
         {
@@ -529,7 +655,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 2,
-          "deletions": 0
+          "deletions": 0,
+          "reviews": 0
         },
         {
           "number": 38,
@@ -538,7 +665,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 106,
-          "deletions": 34
+          "deletions": 34,
+          "reviews": 0
         },
         {
           "number": 18,
@@ -547,7 +675,8 @@
           "state": "MERGED",
           "merged": true,
           "additions": 137,
-          "deletions": 41
+          "deletions": 41,
+          "reviews": 0
         },
         {
           "number": 14,
@@ -556,32 +685,256 @@
           "state": "CLOSED",
           "merged": false,
           "additions": 128,
-          "deletions": 2
+          "deletions": 2,
+          "reviews": 0
         }
       ],
       "review_quality": "red"
     },
     {
       "login": "RUIZ-Enrique-25002136",
-      "name": "",
-      "commits": 0,
+      "name": "RUIZ-Enrique-25002136",
+      "commits": 1,
       "branch_commits": 0,
-      "lines_added": 0,
-      "lines_deleted": 0,
+      "lines_added": 322,
+      "lines_deleted": 33,
       "prs_open": 0,
-      "prs_merged": 0,
+      "prs_merged": 1,
       "reviews_given": 3,
-      "reviews_received": 0,
+      "reviews_received": 1,
       "inline_comments": 3,
       "changes_requested": 0,
       "empty_approvals": 0,
       "substantial_reviews": 3,
       "issues_closed": 0,
       "issues_assigned": 1,
-      "prs": [],
+      "prs": [
+        {
+          "number": 42,
+          "title": "Feat(Enemy): Ajout Enemy",
+          "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/42",
+          "state": "MERGED",
+          "merged": true,
+          "additions": 322,
+          "deletions": 33,
+          "reviews": 1
+        }
+      ],
       "review_quality": "green"
     }
   ],
+  "recent_commits": [
+    {
+      "sha": "772c03e8",
+      "login": "BEGHIN-Timothee-25011060",
+      "name": "Androtim",
+      "date": "2026-06-21T01:47:50+02:00",
+      "message": "feat(ui): bouton Options dans le menu pause (superposition, partie conservée)"
+    },
+    {
+      "sha": "257e64d4",
+      "login": "BEGHIN-Timothee-25011060",
+      "name": "Androtim",
+      "date": "2026-06-21T01:37:45+02:00",
+      "message": "feat(gamepad): sélection menu à la manette (ui_accept=A, ui_cancel=B)"
+    },
+    {
+      "sha": "d5d1e1e7",
+      "login": "BEGHIN-Timothee-25011060",
+      "name": "Androtim",
+      "date": "2026-06-21T01:05:15+02:00",
+      "message": "feat(gamepad): visée au stick droit + tir à la gâchette (R2/R1)"
+    },
+    {
+      "sha": "de152efb",
+      "login": "MORSILLI-Timeo-25002755",
+      "name": "MORSILLI-Timeo-25002755",
+      "date": "2026-06-21T00:23:11+02:00",
+      "message": "feat(GamePad): add joy"
+    },
+    {
+      "sha": "927b62db",
+      "login": "BEGHIN-Timothee-25011060",
+      "name": "Androtim",
+      "date": "2026-06-21T01:31:32+02:00",
+      "message": "feat(hud): HUD en jeu branché (vie, munitions 30/∞, kills) + écran Game Over"
+    },
+    {
+      "sha": "e8219d90",
+      "login": "BEGHIN-Timothee-25011060",
+      "name": "Androtim",
+      "date": "2026-06-20T16:24:36+02:00",
+      "message": "refac(hud): localise HUD labels (FR/EN)"
+    },
+    {
+      "sha": "45bb99f0",
+      "login": "BEGHIN-Timothee-25011060",
+      "name": "Androtim",
+      "date": "2026-06-20T15:25:33+02:00",
+      "message": "feat(hud): in-game HUD base (health, weapons, ammo ∞, kills)"
+    },
+    {
+      "sha": "305d3ce2",
+      "login": "RUIZ-Enrique-25002136",
+      "name": "RUIZ-Enrique-25002136",
+      "date": "2026-06-21T00:18:06+02:00",
+      "message": "Feat/Enemy"
+    },
+    {
+      "sha": "b30e445f",
+      "login": "BEGHIN-Timothee-25011060",
+      "name": "Androtim",
+      "date": "2026-06-21T01:07:24+02:00",
+      "message": "fix(project): retire un marqueur de conflit git resté dans project.godot"
+    },
+    {
+      "sha": "9adc3b35",
+      "login": "MORSILLI-Timeo-25002755",
+      "name": "MORSILLI-Timeo-25002755",
+      "date": "2026-06-21T00:23:11+02:00",
+      "message": "feat(GamePad): add joy"
+    },
+    {
+      "sha": "f1460603",
+      "login": "DUMONTVladislav",
+      "name": "Vladislav DUMONT",
+      "date": "2026-06-21T00:41:45+02:00",
+      "message": "feat(gun) : added gun orientation and reload system"
+    },
+    {
+      "sha": "b0fc1bf6",
+      "login": "BEGHIN-Timothee-25011060",
+      "name": "Androtim",
+      "date": "2026-06-21T00:15:56+02:00",
+      "message": "docs(README): lien vers le tableau de bord du projet"
+    },
+    {
+      "sha": "8b1684ec",
+      "login": "MORSILLI-Timeo-25002755",
+      "name": "MORSILLI-Timeo-25002755",
+      "date": "2026-06-21T00:05:45+02:00",
+      "message": "chore(Cinematic): change zoom"
+    },
+    {
+      "sha": "57ff86dc",
+      "login": "BANTI-Hugo-25004176",
+      "name": "hugo-banti",
+      "date": "2026-06-20T23:58:21+02:00",
+      "message": "fix: limite camera"
+    },
+    {
+      "sha": "4924838c",
+      "login": "BANTI-Hugo-25004176",
+      "name": "hugo-banti",
+      "date": "2026-06-20T23:48:04+02:00",
+      "message": "feat(lampadaire): lumiére"
+    }
+  ],
+  "codebase": {
+    "by_ext": [
+      {
+        "ext": "tscn",
+        "label": "Scènes",
+        "lines": 2101,
+        "files": 17
+      },
+      {
+        "ext": "import",
+        "label": "Imports",
+        "lines": 1178,
+        "files": 30
+      },
+      {
+        "ext": "gd",
+        "label": "GDScript",
+        "lines": 567,
+        "files": 15
+      },
+      {
+        "ext": "tres",
+        "label": "Ressources",
+        "lines": 125,
+        "files": 1
+      },
+      {
+        "ext": "md",
+        "label": "Docs",
+        "lines": 112,
+        "files": 2
+      },
+      {
+        "ext": "godot",
+        "label": "Config",
+        "lines": 71,
+        "files": 1
+      },
+      {
+        "ext": "gdshader",
+        "label": "Shaders",
+        "lines": 46,
+        "files": 2
+      },
+      {
+        "ext": "csv",
+        "label": ".csv",
+        "lines": 17,
+        "files": 1
+      },
+      {
+        "ext": "txt",
+        "label": ".txt",
+        "lines": 7,
+        "files": 1
+      },
+      {
+        "ext": "svg",
+        "label": ".svg",
+        "lines": 1,
+        "files": 1
+      }
+    ],
+    "assets": {
+      "count": 56,
+      "bytes": 3367722
+    }
+  },
+  "trends": {
+    "since_day": "2026-06-21",
+    "delta": {
+      "commits": 11,
+      "prs_merged": 5,
+      "issues_done": 2
+    },
+    "per_student": {
+      "MORSILLI-Timeo-25002755": {
+        "commits": 3,
+        "prs_merged": 1
+      },
+      "BEGHIN-Timothee-25011060": {
+        "commits": 6,
+        "prs_merged": 2
+      },
+      "DUMONTVladislav": {
+        "commits": 1,
+        "prs_merged": 1
+      },
+      "RUIZ-Enrique-25002136": {
+        "commits": 1,
+        "prs_merged": 1
+      }
+    },
+    "series": [
+      {
+        "day": "2026-06-20",
+        "commits": 34
+      },
+      {
+        "day": "2026-06-21",
+        "commits": 34
+      }
+    ]
+  },
+  "deadline": "2026-06-22T08:30:00+02:00",
   "game": {
     "build_status": null,
     "play_url": null,

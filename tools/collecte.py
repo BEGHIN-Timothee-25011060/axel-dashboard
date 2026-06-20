@@ -191,7 +191,59 @@ def collecte_git(repo, tmp):
                 par_email[email_courant]["lines_deleted"] += int(dele)
     # le marqueur de SHA n'est ecrit qu'une fois par commit -> pas de double compte
 
-    return par_email, activite_globale, defaut
+    # Derniers commits (flux d'activite) : toutes branches, du plus recent au plus
+    # ancien. On garde l'e-mail pour le mapper vers un login dans fusionne().
+    recent_raw = []
+    vus_recent = set()
+    for ligne in git("log", "--all", "--no-merges", "--date-order", "-n", "40",
+                     "--pretty=format:%H%x09%ae%x09%an%x09%aI%x09%s").splitlines():
+        parts = ligne.split("\t", 4)
+        if len(parts) < 5 or parts[0] in vus_recent:
+            continue
+        vus_recent.add(parts[0])
+        recent_raw.append({"sha": parts[0][:8], "email": parts[1].lower(),
+                           "name": parts[2], "date": parts[3], "message": parts[4]})
+        if len(recent_raw) >= 15:
+            break
+
+    codebase = compute_codebase(chemin, git)
+    return par_email, activite_globale, defaut, recent_raw, codebase
+
+
+# Composition du code : lignes par extension (fichiers texte) + poids des assets
+# binaires. Donne une idee de « de quoi est fait le jeu » (GDScript, shaders, scenes…).
+TEXT_EXTS = {"gd", "gdshader", "gdshaderinc", "tscn", "tres", "cfg", "godot",
+             "md", "txt", "json", "cs", "import", "svg", "yml", "yaml",
+             "gitignore", "gitattributes", "editorconfig", "csv", "po"}
+EXT_LABEL = {"gd": "GDScript", "gdshader": "Shaders", "gdshaderinc": "Shaders",
+             "tscn": "Scènes", "tres": "Ressources", "cs": "C#", "md": "Docs",
+             "cfg": "Config", "godot": "Config", "json": "JSON", "import": "Imports"}
+
+
+def compute_codebase(chemin, git):
+    fichiers = [f for f in git("ls-files").splitlines() if f.strip()]
+    by_ext = defaultdict(lambda: {"lines": 0, "files": 0})
+    assets_count = 0
+    assets_bytes = 0
+    for f in fichiers:
+        p = Path(chemin) / f
+        ext = p.suffix.lstrip(".").lower() or "(sans)"
+        if ext in TEXT_EXTS:
+            try:
+                lines = sum(1 for _ in p.open("rb"))
+            except OSError:
+                lines = 0
+            by_ext[ext]["lines"] += lines
+            by_ext[ext]["files"] += 1
+        else:
+            try:
+                assets_bytes += p.stat().st_size
+            except OSError:
+                pass
+            assets_count += 1
+    liste = sorted(({"ext": k, "label": EXT_LABEL.get(k, "." + k), **v}
+                    for k, v in by_ext.items()), key=lambda x: -x["lines"])
+    return {"by_ext": liste, "assets": {"count": assets_count, "bytes": assets_bytes}}
 
 
 # --------------------------------------------------------------------------
@@ -236,14 +288,15 @@ def collecte_prs(repo):
             d["prs_merged"] += 1
         elif pr.get("state") == "OPEN":
             d["prs_open"] += 1
-        d["prs"].append({
+        pr_entry = {
             "number": pr["number"], "title": pr.get("title", ""),
             "url": pr.get("url", ""), "state": pr.get("state"),
             "merged": merged, "additions": pr.get("additions", 0),
-            "deletions": pr.get("deletions", 0),
-        })
+            "deletions": pr.get("deletions", 0), "reviews": 0,
+        }
+        d["prs"].append(pr_entry)
         # Revues de cette PR : donnees par les relecteurs, recues par l'auteur.
-        relecteurs_substantiels = set()
+        relecteurs = set()
         for rev in pr.get("reviews", []):
             relog = (rev.get("author") or {}).get("login")
             if not relog or relog == auteur:
@@ -262,7 +315,8 @@ def collecte_prs(repo):
                 r["empty_approvals"] += 1
             if substantielle:
                 r["substantial_reviews"] += 1
-            relecteurs_substantiels.add(relog)
+            relecteurs.add(relog)
+        pr_entry["reviews"] = len(relecteurs)   # relecteurs distincts (hors auteur)
     return par_login
 
 
@@ -312,9 +366,56 @@ def voyant_revue(s):
 # --------------------------------------------------------------------------
 # Assemblage
 # --------------------------------------------------------------------------
+def lire_trends(commits_now, prs_now, issues_now, students):
+    """Calcule les tendances depuis history/history.jsonl (lu AVANT d'y ajouter
+    l'instantane du run courant). Renvoie deltas globaux + par etudiant + une serie
+    (1 point/jour) pour les sparklines, ou None si pas d'historique exploitable."""
+    f = HISTORY / "history.jsonl"
+    if not f.exists():
+        return None
+    snaps = []
+    for l in f.read_text(encoding="utf-8").splitlines():
+        if l.strip():
+            try:
+                snaps.append(json.loads(l))
+            except json.JSONDecodeError:
+                pass
+    if not snaps:
+        return None
+    snaps.sort(key=lambda s: s.get("day", ""))
+    prev = snaps[-1]   # dernier releve enregistre (= avant ce run)
+    prev_ps = prev.get("per_student") or {}
+    per_student = {}
+    for s in students:
+        base = prev_ps.get(s["login"], {})
+        dc = s["commits"] - base.get("commits", 0)
+        dp = s["prs_merged"] - base.get("prs_merged", 0)
+        if dc or dp:
+            per_student[s["login"]] = {"commits": dc, "prs_merged": dp}
+    serie = [{"day": s["day"], "commits": s.get("commits", 0)} for s in snaps]
+    return {
+        "since_day": prev.get("day"),
+        "delta": {
+            "commits": commits_now - prev.get("commits", 0),
+            "prs_merged": prs_now - prev.get("prs_merged", 0),
+            "issues_done": issues_now - prev.get("issues_done", 0),
+        },
+        "per_student": per_student,
+        "series": serie,
+    }
+
+
+def resoudre_login(email, nom, email2login):
+    """E-mail/nom git -> login GitHub (API, puis alias manuel, puis nom lisible)."""
+    return (email2login.get((email or "").lower())
+            or ALIASES.get((email or "").lower())
+            or ALIASES.get((nom or "").lower())
+            or nom or email)
+
+
 def fusionne(repo, no_history):
     with tempfile.TemporaryDirectory() as tmp:
-        par_email, activite, defaut = collecte_git(repo, tmp)
+        par_email, activite, defaut, recent_raw, codebase = collecte_git(repo, tmp)
     email2login = mapping_logins(repo)
     pr_data = collecte_prs(repo)
     iss_closed, iss_assigned, iss_total, iss_done = collecte_issues(repo)
@@ -396,6 +497,15 @@ def fusionne(repo, no_history):
                     or s["prs_merged"] or s["reviews_given"] or s["issues_closed"])
     nb_contributeurs = sum(1 for s in students if actif(s))
 
+    # Flux des derniers commits, avec login resolu.
+    recent_commits = [{
+        "sha": c["sha"], "login": resoudre_login(c["email"], c["name"], email2login),
+        "name": c["name"], "date": c["date"], "message": c["message"],
+    } for c in recent_raw]
+
+    trends = lire_trends(activite["total"],
+                         sum(s["prs_merged"] for s in students), iss_done, students)
+
     repo_info = gh_json([
         "repo", "view", repo, "--json", "name,url,description,defaultBranchRef",
     ])
@@ -430,6 +540,11 @@ def fusionne(repo, no_history):
             "by_student": activite_by_student,
         },
         "students": students,
+        "recent_commits": recent_commits,
+        "codebase": codebase,
+        "trends": trends,
+        # Echeance du rendu (heure de Paris), pour le compte a rebours du front-end.
+        "deadline": "2026-06-22T08:30:00+02:00",
         # Section jeu : remplie par le workflow apres l'export Godot (statut, lien
         # jouable). Valeurs par defaut tant que rien n'est construit.
         "game": {
