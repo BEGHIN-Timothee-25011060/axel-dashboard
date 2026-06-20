@@ -387,6 +387,15 @@ def fusionne(repo, no_history):
 
     students.sort(key=lambda s: (-s["prs_merged"], -s["commits"], s["login"]))
 
+    # « Contributeurs actifs » = toute personne ayant une trace de travail (commits,
+    # PR, revues ou issues). Plus juste que de ne compter que les auteurs de commits :
+    # l'attribution commit->login cote GitHub peut rater un commit isole, et un
+    # relecteur sans commit reste un contributeur.
+    def actif(s):
+        return bool(s["commits"] or s["branch_commits"] or s["prs_open"]
+                    or s["prs_merged"] or s["reviews_given"] or s["issues_closed"])
+    nb_contributeurs = sum(1 for s in students if actif(s))
+
     repo_info = gh_json([
         "repo", "view", repo, "--json", "name,url,description,defaultBranchRef",
     ])
@@ -402,7 +411,7 @@ def fusionne(repo, no_history):
         },
         "totals": {
             "commits": activite["total"],
-            "contributors": len(activite_by_student),
+            "contributors": nb_contributeurs,
             "prs_merged": sum(s["prs_merged"] for s in students),
             "prs_open": sum(s["prs_open"] for s in students),
             "reviews": sum(s["reviews_given"] for s in students),
