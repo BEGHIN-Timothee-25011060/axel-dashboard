@@ -4,6 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tableau de bord — Axel</title>
+  <meta name="description" content="Avancement et contributions de l'équipe du jeu Axel (Godot, game jam Pixel en Provence).">
+  <meta property="og:title" content="🎮 Tableau de bord — Axel">
+  <meta property="og:description" content="Avancement, contributions de l'équipe et version jouable du jeu Axel.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://beghin-timothee-25011060.github.io/axel-dashboard/">
+  <meta property="og:image" content="https://raw.githubusercontent.com/BANTI-Hugo-25004176/Game-Jam/main/icon.svg">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="https://raw.githubusercontent.com/BANTI-Hugo-25004176/Game-Jam/main/icon.svg">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,6 +22,17 @@
   </header>
 
   <main>
+    <canvas id="confetti" aria-hidden="true"></canvas>
+
+    <section id="countdown-sec">
+      <div id="countdown" class="countdown" hidden></div>
+    </section>
+
+    <section id="alertes" class="alertes" hidden>
+      <h2>🔔 Points de vigilance</h2>
+      <div id="alertes-contenu"></div>
+    </section>
+
     <section id="stats" hidden>
       <h2>Statistiques générales</h2>
       <p class="aide">L'ampleur du travail collectif depuis le début du projet. Une <strong>contribution</strong> = un commit (toutes branches, dédoublonné). Les heures et jours sont exprimés en <strong>heure de Paris</strong>.</p>
@@ -30,10 +49,21 @@
       <div class="jeu" id="jeu"></div>
     </section>
 
+    <section id="codebase-sec" hidden>
+      <h2>🧬 De quoi est fait le jeu</h2>
+      <p class="aide">Composition du dépôt : lignes de code par type de fichier et poids des ressources (sprites, sons…).</p>
+      <div id="codebase"></div>
+    </section>
+
     <section id="podiums">
       <h2>🏆 Les podiums de l'équipe</h2>
       <p class="aide">Des classements ludiques (et indicatifs !) calculés à partir de l'activité de chacun.</p>
       <div id="podiums-grid" class="podiums-grid"></div>
+    </section>
+
+    <section id="feed-sec" hidden>
+      <h2>📰 Derniers commits</h2>
+      <ul id="feed" class="feed"></ul>
     </section>
 
     <section>

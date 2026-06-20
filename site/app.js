@@ -51,20 +51,151 @@ function voyantTip(c) {
 
 let badgeCtx = null;
 
+// Avatar GitHub d'un login (masqué proprement si le login n'est pas un vrai
+// compte — cas d'un nom git de repli).
+function avatar(login) {
+  if (!login) return "";
+  return `<img class="avatar" src="https://github.com/${encodeURIComponent(login)}.png?size=48"`
+    + ` alt="" loading="lazy" onerror="this.style.display='none'">`;
+}
+
+function deltaBadge(n) {
+  return n > 0 ? ` <span class="delta pos" title="depuis le dernier relevé">+${n}</span>` : "";
+}
+
 function render(data) {
   const r = data.repo || {};
-  document.getElementById("meta").textContent =
-    `Généré le ${new Date(data.generated_at).toLocaleString("fr-FR")} `
+  let meta = `Généré le ${new Date(data.generated_at).toLocaleString("fr-FR")} `
     + `— ${data.totals.contributors} contributeurs, ${data.totals.commits} commits, `
     + `${data.totals.prs_merged} PR mergées.`;
+  const dc = data.trends && data.trends.delta && data.trends.delta.commits;
+  if (dc > 0) meta += ` (+${dc} commits depuis le dernier relevé)`;
+  document.getElementById("meta").textContent = meta;
   const fr = document.getElementById("footer-repo");
   if (fr && r.url) { fr.href = r.url; fr.textContent = r.full_name || r.name || "du jeu"; }
 
   badgeCtx = contexteBadges(data.students);
+  startCountdown(data);
+  renderAlertes(data);
   renderStats(data);
   renderJeu(data);
+  renderCodebase(data);
   renderPodiums(data);
+  renderFeed(data);
   renderContribs(data);
+}
+
+// --- compte à rebours + confettis ------------------------------------------
+let cdTimer = null;
+function startCountdown(data) {
+  const el = document.getElementById("countdown");
+  if (!el || !data.deadline) return;
+  const fin = new Date(data.deadline).getTime();
+  const boite = (v, l) => `<span class="cd-box"><b>${String(v).padStart(2, "0")}</b><small>${l}</small></span>`;
+  let fete = false;
+  const tick = () => {
+    const apercu = typeof location !== "undefined" && /[?&]fini\b/.test(location.search);
+    const ms = fin - Date.now();
+    if (ms <= 0 || apercu) {
+      el.innerHTML = `<div class="cd-haut"><span class="cd-fini">🎆 Projet rendu — bravo à toute l'équipe ! 🎮</span></div>`;
+      el.hidden = false;
+      if (cdTimer) { clearInterval(cdTimer); cdTimer = null; }
+      if (!fete) { fete = true; lancerConfetti(); }
+      return;
+    }
+    const s = Math.floor(ms / 1000);
+    el.innerHTML = `<div class="cd-haut">`
+      + `<span class="cd-lbl">⏳ Temps restant avant le rendu <small>(lun. 22/06 à 8 h 30)</small></span>`
+      + `<span class="cd-boites">`
+      + boite(Math.floor(s / 86400), "jours") + boite(Math.floor(s % 86400 / 3600), "heures")
+      + boite(Math.floor(s % 3600 / 60), "min") + boite(s % 60, "s")
+      + `</span></div>`;
+    el.hidden = false;
+  };
+  if (cdTimer) clearInterval(cdTimer);
+  cdTimer = setInterval(tick, 1000);
+  tick();
+}
+
+function lancerConfetti() {
+  const c = document.getElementById("confetti");
+  if (!c || !c.getContext) return;
+  const ctx = c.getContext("2d");
+  const resize = () => { c.width = window.innerWidth; c.height = window.innerHeight; };
+  resize(); window.addEventListener("resize", resize);
+  c.style.display = "block";
+  const cols = ["#1a5276", "#27ae60", "#e8a838", "#e74c3c", "#4a90d9"];
+  const parts = Array.from({ length: 180 }, (_, i) => ({
+    x: Math.random() * c.width, y: -20 - Math.random() * c.height,
+    r: 4 + Math.random() * 7, vy: 2 + Math.random() * 4, vx: -2 + Math.random() * 4,
+    col: cols[i % cols.length], rot: Math.random() * 6, vr: -0.2 + Math.random() * 0.4,
+  }));
+  let t = 0;
+  const frame = () => {
+    ctx.clearRect(0, 0, c.width, c.height);
+    parts.forEach(p => {
+      p.y += p.vy; p.x += p.vx; p.rot += p.vr;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+      ctx.fillStyle = p.col; ctx.fillRect(-p.r / 2, -p.r / 2, p.r, p.r * 0.6); ctx.restore();
+      if (p.y > c.height + 20) { p.y = -20; p.x = Math.random() * c.width; }
+    });
+    if (++t < 650) requestAnimationFrame(frame); else c.style.display = "none";
+  };
+  frame();
+}
+
+// --- points de vigilance ---------------------------------------------------
+function renderAlertes(data) {
+  const out = [];
+  (data.students || []).forEach(s => (s.prs || []).forEach(p => {
+    if (p.state === "OPEN" && (p.reviews || 0) === 0)
+      out.push(`<span class="alerte warn" title="PR ouverte sans relecture">👀 PR #${p.number} sans revue — ${esc(s.login)}</span>`);
+  }));
+  const rc = data.recent_commits || [];
+  if (rc.length) {
+    const h = (Date.now() - new Date(rc[0].date).getTime()) / 3600000;
+    if (h > 12) out.push(`<span class="alerte">⏰ aucun commit depuis ${Math.floor(h)} h</span>`);
+  }
+  if (data.game && data.game.build_status === "failed")
+    out.push(`<span class="alerte danger">🛠️ l'export web du jeu a échoué</span>`);
+  const sec = document.getElementById("alertes");
+  if (out.length) {
+    document.getElementById("alertes-contenu").innerHTML = out.join(" ");
+    sec.hidden = false;
+  } else { sec.hidden = true; }
+}
+
+// --- flux des derniers commits ---------------------------------------------
+function renderFeed(data) {
+  const ul = document.getElementById("feed"), sec = document.getElementById("feed-sec");
+  const rc = data.recent_commits || [];
+  if (!ul || !rc.length) { if (sec) sec.hidden = true; return; }
+  sec.hidden = false;
+  const repo = (data.repo && data.repo.url) || "";
+  ul.innerHTML = rc.map(c => `<li class="feed-item">
+    ${avatar(c.login)}
+    <span class="feed-msg">${esc(c.message)}</span>
+    <span class="feed-meta">${repo ? `<a class="pod-login" href="${esc(repo)}/commit/${esc(c.sha)}" target="_blank" rel="noopener">${esc(c.sha)}</a>` : esc(c.sha)} · ${esc(c.login)} · ${relTime(c.date)}</span>
+  </li>`).join("");
+}
+
+// --- composition du code ---------------------------------------------------
+function renderCodebase(data) {
+  const cb = data.codebase, sec = document.getElementById("codebase-sec");
+  const box = document.getElementById("codebase");
+  if (!cb || !cb.by_ext || !cb.by_ext.length || !box) { if (sec) sec.hidden = true; return; }
+  sec.hidden = false;
+  const items = cb.by_ext.map(e => ({ label: e.label, value: e.lines,
+    title: `${e.label} : ${e.lines} lignes, ${e.files} fichier(s)` }));
+  const totalLines = items.reduce((a, b) => a + b.value, 0);
+  const kb = Math.round((cb.assets.bytes || 0) / 1024);
+  box.innerHTML = `<div class="chart"><h3>Lignes de code par type <small>(${totalLines.toLocaleString("fr-FR")} au total)</small></h3>`
+    + `<div class="barchart">${barChart(items)}</div></div>`
+    + `<div class="stats-kpi" style="margin-top:.8rem">`
+    + skpi(totalLines.toLocaleString("fr-FR"), "lignes de code")
+    + skpi((cb.assets.count || 0).toLocaleString("fr-FR"), "fichiers de ressources", "sprites, sons, polices…")
+    + skpi(kb.toLocaleString("fr-FR") + " Ko", "poids des ressources")
+    + `</div>`;
 }
 
 // --- section jeu jouable ---------------------------------------------------
@@ -135,7 +266,7 @@ function renderPodiums(data) {
       .slice(0, 3);
     const lignes = top.length
       ? top.map((o, i) => `<li><span class="pod-med">${POD_MEDS[i]}</span>`
-          + `<span class="pod-login">${esc(o.s.login)}</span>`
+          + `${avatar(o.s.login)}<span class="pod-login">${esc(o.s.login)}</span>`
           + `<span class="pod-val">${o.v} ${esc(p.unit)}</span></li>`).join("")
       : `<li class="pod-vide">Personne pour l'instant</li>`;
     return `<div class="podium"><div class="pod-titre"><span class="pod-emoji">${p.emoji}</span> ${esc(p.nom)}</div>`
@@ -484,12 +615,14 @@ function renderContribs(data) {
     ? (tauxTries.length % 2 ? tauxTries[(tauxTries.length - 1) / 2]
         : (tauxTries[tauxTries.length / 2 - 1] + tauxTries[tauxTries.length / 2]) / 2) : null;
   students.sort(compareStudents);
+  const trd = (data.trends && data.trends.per_student) || {};
   corps.innerHTML = "";
   if (!students.length) {
     corps.innerHTML = '<tr><td colspan="12">Aucun contributeur détecté.</td></tr>';
     return;
   }
   students.forEach((s, i) => {
+    const dlt = trd[s.login] || {};
     const bs = badgesEtudiant(s, ctx)
       .map(([e, t]) => `<span class="badge-emoji" title="${esc(t)}">${e}</span>`).join(" ");
     const tauxCell = s.taux == null ? '<span class="badge nd">n/d</span>'
@@ -500,13 +633,13 @@ function renderContribs(data) {
     tr.id = idEtudiant(s.login);
     tr.innerHTML = `
       <td class="rang"><span class="rang-badge">${i + 1}</span></td>
-      <td class="login"><span class="chevron">▶</span>${esc(s.login)}${sparkStudent(s.login)}</td>
+      <td class="login"><span class="chevron">▶</span>${avatar(s.login)}${esc(s.login)}${sparkStudent(s.login)}</td>
       <td class="num">${tauxCell}</td>
-      <td class="num">${s.commits}</td>
+      <td class="num">${s.commits}${deltaBadge(dlt.commits)}</td>
       <td class="num">${(s.lines_added || 0).toLocaleString("fr-FR")}</td>
       <td class="num">${s.branch_commits ?? 0}</td>
       <td class="num">${s.prs_open}</td>
-      <td class="num">${s.prs_merged}</td>
+      <td class="num">${s.prs_merged}${deltaBadge(dlt.prs_merged)}</td>
       <td class="num">${s.reviews_given}</td>
       <td class="num">${s.issues_closed}/${s.issues_assigned}</td>
       <td class="num"><span class="pastille ${s.review_quality}" title="${esc(voyantTip(s))}"></span></td>
