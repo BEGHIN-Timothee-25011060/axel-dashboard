@@ -1,0 +1,11 @@
+# Sortie de l'export HTML5 du jeu : generee par la CI et deployee via l'artefact
+# Pages, jamais commitee (binaires volumineux).
+site/play/
+
+# Python
+__pycache__/
+*.pyc
+
+# Divers
+.DS_Store
+Thumbs.db
