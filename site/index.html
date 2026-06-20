@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tableau de bord — Axel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🎮 Tableau de bord — Axel</h1>
+    <p class="sous-titre">Avancement et contributions de l'équipe du jeu <strong>Axel</strong>, développé sous Godot pour la game jam <strong>Pixel en Provence</strong> (thème : développement durable).</p>
+    <p class="meta" id="meta">Chargement…</p>
+  </header>
+
+  <main>
+    <section id="stats" hidden>
+      <h2>Statistiques générales</h2>
+      <p class="aide">L'ampleur du travail collectif depuis le début du projet. Une <strong>contribution</strong> = un commit (toutes branches, dédoublonné). Les heures et jours sont exprimés en <strong>heure de Paris</strong>.</p>
+      <div id="stats-kpi" class="stats-kpi"></div>
+      <button type="button" id="stats-toggle" class="disclosure" aria-expanded="false" hidden>
+        <span class="chevron">▶</span> Diagrammes d'activité (par jour, jour de semaine, heure)
+      </button>
+      <div id="stats-charts" hidden></div>
+    </section>
+
+    <section id="jeu-section" hidden>
+      <h2>🕹️ Le jeu</h2>
+      <p class="aide">La dernière version jouable du jeu, exportée automatiquement en HTML5 par l'intégration continue à chaque mise à jour du dépôt.</p>
+      <div class="jeu" id="jeu"></div>
+    </section>
+
+    <section id="podiums">
+      <h2>🏆 Les podiums de l'équipe</h2>
+      <p class="aide">Des classements ludiques (et indicatifs !) calculés à partir de l'activité de chacun.</p>
+      <div id="podiums-grid" class="podiums-grid"></div>
+    </section>
+
+    <section>
+      <h2>Classement des contributeurs</h2>
+      <p class="aide">Tous les contributeurs du dépôt. Tri par défaut : <strong>PR mergées</strong>, puis commits. Cliquez sur l'en-tête d'une colonne pour trier, ou sur une ligne pour <strong>déplier le détail</strong> (PR, part de contribution, activité). La barre fine grise marque la <strong>médiane de l'équipe</strong>.</p>
+      <table id="contribs">
+        <thead>
+          <tr>
+            <th class="rang">#</th>
+            <th data-esort="login">Contributeur</th>
+            <th data-esort="taux" class="num" title="Part du travail de l'équipe : moyenne pondérée des contributions (lignes, PR mergées, issues, revues, travail en cours). Voir l'explication en bas.">Contribution</th>
+            <th data-esort="commits" class="num">Commits</th>
+            <th data-esort="lines_added" class="num" title="Lignes ajoutées (toutes branches)">Lignes</th>
+            <th data-esort="branch_commits" class="num" title="Commits dans des branches non mergées (travail en cours)">En cours</th>
+            <th data-esort="prs_open" class="num">PR en cours</th>
+            <th data-esort="prs_merged" class="num">PR mergées</th>
+            <th data-esort="reviews_given" class="num" title="Nombre de PR relues">PR revues</th>
+            <th data-esort="issues_closed" class="num">Issues</th>
+            <th class="num" title="Qualité des revues : 🟢 vraies revues · 🟡 légères · 🔴 approbations à vide · ⚪ aucune">Revue</th>
+            <th>Badges</th>
+          </tr>
+        </thead>
+        <tbody id="contribs-corps"></tbody>
+      </table>
+    </section>
+
+    <section class="legende">
+      <h2>Comment lire ce tableau</h2>
+      <ul>
+        <li><span class="pastille green"></span> <strong>Voyant qualité de revue</strong> :
+          <span class="pastille green"></span> vraies revues (commentaires, changements demandés),
+          <span class="pastille yellow"></span> engagement léger,
+          <span class="pastille red"></span> approbations à vide (tampon),
+          <span class="pastille na"></span> pas encore de revue.</li>
+        <li><strong>Taux de contribution</strong> : la part du travail de l'équipe, calculée comme une moyenne pondérée sur cinq dimensions — <strong>lignes ajoutées 30 %</strong>, <strong>PR mergées 30 %</strong>, <strong>issues fermées 15 %</strong>, <strong>revues données 15 %</strong>, <strong>travail en cours 10 %</strong>. Chaque dimension étant rapportée au total de l'équipe, les taux somment à <strong>100 %</strong>. Survolez la valeur (dans le détail) pour voir le calcul dimension par dimension.</li>
+        <li><strong>Équilibre du travail</strong> : répartition des commits entre les membres (entropie normalisée de Shannon), de 0 à 100 %. <strong>100 % = chacun contribue également</strong> ; bas = concentré sur quelques-uns.</li>
+        <li><strong>Badges</strong> :
+          🏗️ le plus de commits ·
+          🔍 le plus de revues ·
+          🚀 le plus de PR mergées ·
+          💬 le plus de commentaires de revue ·
+          🌟 le code le plus relu ·
+          🛡️ le plus de changements demandés ·
+          🐘 la plus grosse PR ·
+          🐿️ le plus de toutes petites PR ·
+          🐝 polyvalent (au-dessus de la médiane sur code, PR, revues et issues) ·
+          🤝 relit autant qu'il est relu ·
+          🧐 vraies revues exigeantes ·
+          🦆 approbations à vide ·
+          👻 passager clandestin (&lt; 5 % du travail).
+          Survolez un badge pour le détail.</li>
+      </ul>
+      <p class="avertissement">⚠️ Les voyants et indicateurs collaboratifs sont des <strong>repères heuristiques, indicatifs et non des notes</strong>. Les chiffres bruts sont toujours affichés pour que chacun puisse les interpréter.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Généré automatiquement depuis le dépôt <a id="footer-repo" href="#" target="_blank" rel="noopener">du jeu</a>. Données publiques agrégées ; seuls les logins GitHub (publics) sont affichés.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
