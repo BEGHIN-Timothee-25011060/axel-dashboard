@@ -268,7 +268,8 @@ def mapping_logins(repo):
 # 3. Pull requests + revues
 # --------------------------------------------------------------------------
 def collecte_prs(repo):
-    """Renvoie (par_login_pr, prs_par_login) : compteurs PR + revues par login."""
+    """Renvoie (par_login, merged_prs) : compteurs/revues par login + la liste des
+    PR mergees (avec date de merge) pour la rubrique « nouveautes »."""
     prs = gh_json([
         "pr", "list", "--repo", repo, "--state", "all", "--limit", "300",
         "--json", "number,title,url,state,author,additions,deletions,reviews,mergedAt",
@@ -278,6 +279,7 @@ def collecte_prs(repo):
         "inline_comments": 0, "changes_requested": 0, "empty_approvals": 0,
         "substantial_reviews": 0, "prs": [],
     })
+    merged_prs = []
     for pr in prs:
         auteur = (pr.get("author") or {}).get("login")
         if not auteur:
@@ -286,6 +288,12 @@ def collecte_prs(repo):
         d = par_login[auteur]
         if merged:
             d["prs_merged"] += 1
+            merged_prs.append({
+                "number": pr["number"], "title": pr.get("title", ""),
+                "url": pr.get("url", ""), "author": auteur,
+                "merged_at": pr.get("mergedAt"),
+                "additions": pr.get("additions", 0), "deletions": pr.get("deletions", 0),
+            })
         elif pr.get("state") == "OPEN":
             d["prs_open"] += 1
         pr_entry = {
@@ -317,7 +325,8 @@ def collecte_prs(repo):
                 r["substantial_reviews"] += 1
             relecteurs.add(relog)
         pr_entry["reviews"] = len(relecteurs)   # relecteurs distincts (hors auteur)
-    return par_login
+    merged_prs.sort(key=lambda p: p.get("merged_at") or "", reverse=True)
+    return par_login, merged_prs
 
 
 # --------------------------------------------------------------------------
@@ -395,6 +404,7 @@ def lire_trends(commits_now, prs_now, issues_now, students):
     serie = [{"day": s["day"], "commits": s.get("commits", 0)} for s in snaps]
     return {
         "since_day": prev.get("day"),
+        "previous_build_at": prev.get("ts"),   # horodatage du build precedent
         "delta": {
             "commits": commits_now - prev.get("commits", 0),
             "prs_merged": prs_now - prev.get("prs_merged", 0),
@@ -417,7 +427,7 @@ def fusionne(repo, no_history):
     with tempfile.TemporaryDirectory() as tmp:
         par_email, activite, defaut, recent_raw, codebase = collecte_git(repo, tmp)
     email2login = mapping_logins(repo)
-    pr_data = collecte_prs(repo)
+    pr_data, merged_prs = collecte_prs(repo)
     iss_closed, iss_assigned, iss_total, iss_done = collecte_issues(repo)
 
     # Regroupe l'activite git (par e-mail) sous le login GitHub.
@@ -505,6 +515,8 @@ def fusionne(repo, no_history):
 
     trends = lire_trends(activite["total"],
                          sum(s["prs_merged"] for s in students), iss_done, students)
+    # PR mergees les plus recentes ; le front-end isole celles depuis le build precedent.
+    recent_merged_prs = merged_prs[:15]
 
     repo_info = gh_json([
         "repo", "view", repo, "--json", "name,url,description,defaultBranchRef",
@@ -541,8 +553,11 @@ def fusionne(repo, no_history):
         },
         "students": students,
         "recent_commits": recent_commits,
+        "recent_merged_prs": recent_merged_prs,
         "codebase": codebase,
         "trends": trends,
+        # Cadence du workflow (cron */30) : le front-end en deduit le prochain build.
+        "build_interval_min": 30,
         # Echeance du rendu (heure de Paris), pour le compte a rebours du front-end.
         "deadline": "2026-06-22T08:30:00+02:00",
         # Section jeu : remplie par le workflow apres l'export Godot (statut, lien

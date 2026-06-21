@@ -328,3 +328,20 @@ td.badges { white-space: nowrap; }
 .feed-meta a { color: var(--bleu-clair); text-decoration: none; }
 .feed-meta a:hover { text-decoration: underline; }
 @media (max-width: 720px) { .feed-meta { display: none; } }
+
+/* ---- panneau infos de build (dernier / prochain) + nouveautés ---- */
+#build-info { margin-bottom: 1.4rem; }
+.bi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .8rem; }
+.bi-card { background: #fff; border: 1px solid var(--bord); border-radius: 10px;
+  padding: .7rem 1rem; border-left: 4px solid var(--bleu-clair); }
+.bi-lbl { font-size: .8rem; font-weight: 600; color: var(--bleu); }
+.bi-val { font-size: 1.6rem; font-weight: 700; color: var(--ardoise);
+  font-variant-numeric: tabular-nums; line-height: 1.1; margin: .15rem 0; }
+.bi-news { background: #f2fbf5; border: 1px solid #c7ebd5; border-left: 4px solid var(--vert);
+  border-radius: 10px; padding: .7rem 1rem; margin-top: .8rem; }
+.bi-news ul { margin: .4rem 0 0; padding-left: 1.1rem; }
+.bi-news li { font-size: .9rem; margin: .25rem 0; }
+.bi-news a { color: var(--bleu); text-decoration: none; font-weight: 600; }
+.bi-news a:hover { text-decoration: underline; }
+.bi-news .add { color: var(--vert); font-weight: 600; }
+.bi-news .del { color: var(--rouge); font-weight: 600; }
