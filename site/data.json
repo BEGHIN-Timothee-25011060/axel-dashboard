@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-21T01:06:43.593541+00:00",
+  "generated_at": "2026-06-21T01:09:25.641050+00:00",
   "repo": {
     "name": "Game-Jam",
     "full_name": "BANTI-Hugo-25004176/Game-Jam",
@@ -63,48 +63,6 @@
       9
     ],
     "by_student": {
-      "BEGHIN-Timothee-25011060": {
-        "total": 24,
-        "by_day": {
-          "2026-06-21": 12,
-          "2026-06-20": 12
-        },
-        "by_weekday": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          12,
-          12
-        ],
-        "by_hour": [
-          4,
-          5,
-          6,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          1,
-          0,
-          2,
-          2,
-          0,
-          0,
-          0,
-          0,
-          1,
-          2,
-          1
-        ]
-      },
       "DUMONTVladislav": {
         "total": 5,
         "by_day": {
@@ -148,87 +106,46 @@
           2
         ]
       },
-      "BANTI-Hugo-25004176": {
-        "total": 3,
+      "BEGHIN-Timothee-25011060": {
+        "total": 24,
         "by_day": {
-          "2026-06-20": 2,
-          "2026-06-19": 1
+          "2026-06-21": 12,
+          "2026-06-20": 12
         },
         "by_weekday": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          12,
+          12
+        ],
+        "by_hour": [
+          4,
+          5,
+          6,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          2,
+          2,
           0,
           0,
           0,
           0,
           1,
           2,
-          0
-        ],
-        "by_hour": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          1,
-          2
-        ]
-      },
-      "RUIZ-Enrique-25002136": {
-        "total": 1,
-        "by_day": {
-          "2026-06-21": 1
-        },
-        "by_weekday": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
           1
-        ],
-        "by_hour": [
-          1,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
         ]
       },
       "MORSILLI-Timeo-25002755": {
@@ -272,6 +189,89 @@
           2,
           2,
           4
+        ]
+      },
+      "RUIZ-Enrique-25002136": {
+        "total": 1,
+        "by_day": {
+          "2026-06-21": 1
+        },
+        "by_weekday": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "by_hour": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "BANTI-Hugo-25004176": {
+        "total": 3,
+        "by_day": {
+          "2026-06-20": 2,
+          "2026-06-19": 1
+        },
+        "by_weekday": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          2,
+          0
+        ],
+        "by_hour": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          2
         ]
       }
     }
@@ -850,6 +850,143 @@
       "message": "fix(project): retire un marqueur de conflit git resté dans project.godot"
     }
   ],
+  "recent_merged_prs": [
+    {
+      "number": 45,
+      "title": "feat(gamepad): visée stick droit + tir gâchette (suite du port manette #29)",
+      "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/45",
+      "author": "BEGHIN-Timothee-25011060",
+      "merged_at": "2026-06-21T00:35:37Z",
+      "additions": 62,
+      "deletions": 20
+    },
+    {
+      "number": 50,
+      "title": "feat(hud): HUD en jeu (vie, munitions 30/∞, kills) + écran Game Over",
+      "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/50",
+      "author": "BEGHIN-Timothee-25011060",
+      "merged_at": "2026-06-21T00:25:13Z",
+      "additions": 303,
+      "deletions": 4
+    },
+    {
+      "number": 52,
+      "title": "feat(ui): Options accessibles depuis le menu pause",
+      "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/52",
+      "author": "BEGHIN-Timothee-25011060",
+      "merged_at": "2026-06-21T00:25:00Z",
+      "additions": 44,
+      "deletions": 2
+    },
+    {
+      "number": 53,
+      "title": "feat(input): support clavier AZERTY + QWERTY (touches physiques)",
+      "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/53",
+      "author": "BEGHIN-Timothee-25011060",
+      "merged_at": "2026-06-21T00:24:43Z",
+      "additions": 4,
+      "deletions": 4
+    },
+    {
+      "number": 42,
+      "title": "Feat(Enemy): Ajout Enemy",
+      "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/42",
+      "author": "RUIZ-Enrique-25002136",
+      "merged_at": "2026-06-20T23:18:18Z",
+      "additions": 322,
+      "deletions": 33
+    },
+    {
+      "number": 46,
+      "title": "fix(project): marqueur de conflit git dans project.godot",
+      "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/46",
+      "author": "BEGHIN-Timothee-25011060",
+      "merged_at": "2026-06-20T23:10:35Z",
+      "additions": 0,
+      "deletions": 1
+    },
+    {
+      "number": 44,
+      "title": "feat(gun) : added gun orientation and reload system",
+      "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/44",
+      "author": "DUMONTVladislav",
+      "merged_at": "2026-06-20T22:43:01Z",
+      "additions": 80,
+      "deletions": 12
+    },
+    {
+      "number": 41,
+      "title": "docs(README): lien vers le tableau de bord",
+      "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/41",
+      "author": "BEGHIN-Timothee-25011060",
+      "merged_at": "2026-06-20T22:18:00Z",
+      "additions": 3,
+      "deletions": 0
+    },
+    {
+      "number": 40,
+      "title": "chore(Cinematic): change zoom",
+      "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/40",
+      "author": "MORSILLI-Timeo-25002755",
+      "merged_at": "2026-06-20T22:07:32Z",
+      "additions": 7,
+      "deletions": 6
+    },
+    {
+      "number": 39,
+      "title": "fix: limite camera",
+      "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/39",
+      "author": "BANTI-Hugo-25004176",
+      "merged_at": "2026-06-20T21:59:03Z",
+      "additions": 2,
+      "deletions": 0
+    },
+    {
+      "number": 38,
+      "title": "feat(lampadaire): lumiére",
+      "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/38",
+      "author": "BANTI-Hugo-25004176",
+      "merged_at": "2026-06-20T21:53:35Z",
+      "additions": 106,
+      "deletions": 34
+    },
+    {
+      "number": 35,
+      "title": "chore(Useless): add _",
+      "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/35",
+      "author": "MORSILLI-Timeo-25002755",
+      "merged_at": "2026-06-20T21:36:38Z",
+      "additions": 4,
+      "deletions": 4
+    },
+    {
+      "number": 32,
+      "title": "fix(Dash): change speed to appropriate one",
+      "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/32",
+      "author": "MORSILLI-Timeo-25002755",
+      "merged_at": "2026-06-20T21:36:20Z",
+      "additions": 1,
+      "deletions": 1
+    },
+    {
+      "number": 36,
+      "title": "fix(map) : fixed some collisions",
+      "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/36",
+      "author": "DUMONTVladislav",
+      "merged_at": "2026-06-20T21:35:31Z",
+      "additions": 35,
+      "deletions": 18
+    },
+    {
+      "number": 31,
+      "title": "docs(README): add README",
+      "url": "https://github.com/BANTI-Hugo-25004176/Game-Jam/pull/31",
+      "author": "MORSILLI-Timeo-25002755",
+      "merged_at": "2026-06-20T21:34:40Z",
+      "additions": 37,
+      "deletions": 0
+    }
+  ],
   "codebase": {
     "by_ext": [
       {
@@ -920,6 +1057,7 @@
   },
   "trends": {
     "since_day": "2026-06-21",
+    "previous_build_at": "2026-06-20T23:49:59.025108+00:00",
     "delta": {
       "commits": 6,
       "prs_merged": 4,
@@ -942,6 +1080,7 @@
       }
     ]
   },
+  "build_interval_min": 30,
   "deadline": "2026-06-22T08:30:00+02:00",
   "game": {
     "build_status": null,
