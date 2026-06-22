@@ -86,125 +86,28 @@ function render(data) {
   renderContribs(data);
 }
 
-// --- compte à rebours + confettis ------------------------------------------
-let cdTimer = null;
+// --- bandeau final (projet terminé) ----------------------------------------
+// Le jeu est terminé et le site est figé : bandeau statique de clôture, plus de
+// compte à rebours (aucune mise à jour en direct).
 function startCountdown(data) {
   const el = document.getElementById("countdown");
-  if (!el || !data.deadline) return;
-  const fin = new Date(data.deadline).getTime();
-  const boite = (v, l) => `<span class="cd-box"><b>${String(v).padStart(2, "0")}</b><small>${l}</small></span>`;
-  let fete = false;
-  const tick = () => {
-    const apercu = typeof location !== "undefined" && /[?&]fini\b/.test(location.search);
-    const ms = fin - Date.now();
-    if (ms <= 0 || apercu) {
-      el.innerHTML = `<div class="cd-haut"><span class="cd-fini">🎆 Projet rendu — bravo à toute l'équipe ! 🎮</span></div>`;
-      el.hidden = false;
-      if (cdTimer) { clearInterval(cdTimer); cdTimer = null; }
-      if (!fete) { fete = true; lancerConfetti(); }
-      return;
-    }
-    const s = Math.floor(ms / 1000);
-    el.innerHTML = `<div class="cd-haut">`
-      + `<span class="cd-lbl">⏳ Temps restant avant le rendu <small>(lun. 22/06 à 8 h 30)</small></span>`
-      + `<span class="cd-boites">`
-      + boite(Math.floor(s / 86400), "jours") + boite(Math.floor(s % 86400 / 3600), "heures")
-      + boite(Math.floor(s % 3600 / 60), "min") + boite(s % 60, "s")
-      + `</span></div>`;
-    el.hidden = false;
-  };
-  if (cdTimer) clearInterval(cdTimer);
-  cdTimer = setInterval(tick, 1000);
-  tick();
+  if (!el) return;
+  el.innerHTML = `<div class="cd-haut"><span class="cd-fini">🎆 Projet terminé — bravo à toute l'équipe ! 🎮</span></div>`;
+  el.hidden = false;
 }
 
-function lancerConfetti() {
-  const c = document.getElementById("confetti");
-  if (!c || !c.getContext) return;
-  const ctx = c.getContext("2d");
-  const resize = () => { c.width = window.innerWidth; c.height = window.innerHeight; };
-  resize(); window.addEventListener("resize", resize);
-  c.style.display = "block";
-  const cols = ["#1a5276", "#27ae60", "#e8a838", "#e74c3c", "#4a90d9"];
-  const parts = Array.from({ length: 180 }, (_, i) => ({
-    x: Math.random() * c.width, y: -20 - Math.random() * c.height,
-    r: 4 + Math.random() * 7, vy: 2 + Math.random() * 4, vx: -2 + Math.random() * 4,
-    col: cols[i % cols.length], rot: Math.random() * 6, vr: -0.2 + Math.random() * 0.4,
-  }));
-  let t = 0;
-  const frame = () => {
-    ctx.clearRect(0, 0, c.width, c.height);
-    parts.forEach(p => {
-      p.y += p.vy; p.x += p.vx; p.rot += p.vr;
-      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
-      ctx.fillStyle = p.col; ctx.fillRect(-p.r / 2, -p.r / 2, p.r, p.r * 0.6); ctx.restore();
-      if (p.y > c.height + 20) { p.y = -20; p.x = Math.random() * c.width; }
-    });
-    if (++t < 650) requestAnimationFrame(frame); else c.style.display = "none";
-  };
-  frame();
-}
-
-// --- infos de build (dernier / prochain) + nouveautés ----------------------
-// Prochaine exécution du cron `*/intervalMin` : prochain multiple d'intervalMin
-// minutes de l'heure (les runs GitHub planifiés peuvent être un peu décalés).
-function prochainBuild(intervalMin) {
-  const now = new Date();
-  const next = new Date(now);
-  if (intervalMin === 30) {
-    if (now.getMinutes() < 30) next.setMinutes(30, 0, 0);
-    else next.setHours(now.getHours() + 1, 0, 0, 0);
-  } else {
-    const m = now.getMinutes();
-    next.setMinutes(m + (intervalMin - (m % intervalMin || intervalMin)), 0, 0);
-  }
-  return next;
-}
-
-function typeEmoji(titre) {
-  const m = /^(\w+)\s*[(:]/.exec(titre || "");
-  return ({ feat: "✨", fix: "🐛", perf: "⚡", refactor: "♻️", docs: "📝",
-    style: "💄", chore: "🔧", test: "✅", build: "📦", ci: "🤖" })[(m && m[1]) || ""] || "🔹";
-}
-
-let biTimer = null;
+// --- infos de build (site figé) --------------------------------------------
 function renderBuildInfo(data) {
   const sec = document.getElementById("build-info");
   if (!sec) return;
   const gen = data.generated_at;
-  const interval = data.build_interval_min || 30;
-  // Nouveautés = PR mergées depuis le build précédent (texte, pas une démo).
-  const prev = data.trends && data.trends.previous_build_at;
-  const news = (data.recent_merged_prs || []).filter(p =>
-    p.merged_at && prev && new Date(p.merged_at) > new Date(prev));
-  const newsHtml = news.length
-    ? `<div class="bi-news"><div class="bi-lbl">🆕 Nouveautés depuis le dernier build <small>(${news.length})</small></div><ul>`
-      + news.map(p => `<li>${typeEmoji(p.title)} <a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.title)}</a>`
-        + ` <small class="aide">#${p.number} · ${esc(p.author)} · <span class="add">+${p.additions}</span>/<span class="del">−${p.deletions}</span></small></li>`).join("")
-      + `</ul></div>`
-    : "";
+  // Site figé : une seule carte statique indiquant la date des données finales.
   sec.innerHTML = `<div class="bi-row">
-      <div class="bi-card"><div class="bi-lbl">🛠️ Dernier build</div>
-        <div class="bi-val" id="bi-last">${gen ? relTime(gen) : "n/d"}</div>
-        <small class="aide">${gen ? "le " + new Date(gen).toLocaleString("fr-FR") : ""}</small></div>
-      <div class="bi-card" id="bi-next"></div>
-    </div>${newsHtml}`;
+      <div class="bi-card"><div class="bi-lbl">📦 Site figé — données finales</div>
+        <div class="bi-val">Projet terminé</div>
+        <small class="aide">${gen ? "dernière mise à jour le " + new Date(gen).toLocaleString("fr-FR") : ""}</small></div>
+    </div>`;
   sec.hidden = false;
-  const tickNext = () => {
-    const t = prochainBuild(interval).getTime();
-    const s = Math.max(0, Math.floor((t - Date.now()) / 1000));
-    const mm = String(Math.floor(s / 60)).padStart(2, "0"), ss = String(s % 60).padStart(2, "0");
-    const el = document.getElementById("bi-next");
-    if (el) el.innerHTML = `<div class="bi-lbl">⏱️ Prochain build dans</div>`
-      + `<div class="bi-val">${mm}:${ss}</div>`
-      + `<small class="aide">prévu vers ${new Date(t).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}`
-      + ` · toutes les ${interval} min (peut être décalé)</small>`;
-    const last = document.getElementById("bi-last");
-    if (last && gen) last.textContent = relTime(gen);
-  };
-  tickNext();
-  if (biTimer) clearInterval(biTimer);
-  biTimer = setInterval(tickNext, 1000);
 }
 
 // --- points de vigilance ---------------------------------------------------
