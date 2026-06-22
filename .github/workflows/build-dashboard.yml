@@ -4,9 +4,9 @@
 name: Build dashboard
 
 on:
-  schedule:
-    - cron: "*/30 * * * *"   # toutes les 30 min (rendu du projet sous ~1 jour)
-  workflow_dispatch: {}       # bouton « Run workflow » pour rafraichir a la demande
+  # Plus de cron : le jeu est terminé, le site est figé. On garde le déclenchement
+  # manuel (« Run workflow ») au cas où une régénération ponctuelle serait voulue.
+  workflow_dispatch: {}
 
 # Un seul deploiement Pages a la fois ; on ne coupe pas un deploiement en cours.
 concurrency:

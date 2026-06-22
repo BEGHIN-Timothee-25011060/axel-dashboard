@@ -36,8 +36,13 @@ tools/collecte.py   -> interroge GitHub (gh) + clone le dépôt du jeu, écrit
 site/               -> page statique (index.html + style.css + app.js + data.json)
 site/play/          -> export HTML5 du jeu (généré par la CI, non commité)
 history/            -> instantanés (commit automatique du bot) pour les tendances
-.github/workflows/build-dashboard.yml -> toutes les 30 min : collecte + export Godot -> Pages
+.github/workflows/build-dashboard.yml -> collecte + export Godot -> Pages (manuel)
 ```
+
+> **Le jeu est terminé : le site est figé.** Le workflow n'a plus de planification
+> (cron) ; il ne se déclenche plus que manuellement (*Actions > Run workflow*) si
+> une régénération ponctuelle est souhaitée. Les données affichées sont donc celles
+> du dernier build.
 
 Le dépôt du jeu est **public** : le collecteur n'a besoin que du `GITHUB_TOKEN`
 par défaut (lecture des PR/issues/commits publics) pour fonctionner.
